@@ -3,7 +3,7 @@
 #### Instructions
 1. Complete the project setup as listed below
 2. Complete the Excerise
-3. Email a synopsis of your work and the link to your git repo containing the completed exercise to: Ruslan_Kashapau@epam.com
+3. Email a synopsis of your work and the link to your git repo containing the completed exercise to: vladimir_pokhodnia@epam.com
 
 
 #### Expectations
