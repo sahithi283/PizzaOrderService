@@ -1,11 +1,14 @@
 package com.sample.test.demo.utilities;
 
 import com.sample.test.demo.Pages.interfaces.SampleRunnable;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.*;
 import org.openqa.selenium.By;
+
 import java.io.*;
 import java.util.*;
 
-public class ReadDataUtilClass {
+public class ReadDataUtilityClass {
     private static final Map<String, By> map = new LinkedHashMap<>();
     private static final Map<String, SampleRunnable> locatorsMap = new LinkedHashMap<>();
 
@@ -24,7 +27,7 @@ public class ReadDataUtilClass {
             while ((line = bufferedReader.readLine()) != null) {
                 if (!(line.trim().isEmpty())) {
                     List<String> list = Arrays.asList((line.split("\\s+")));
-                        map.put(list.get(0), (locatorsMap.get(list.get(1))).runner(list.get(2).replaceAll("\"", "")));
+                    map.put(list.get(0), (locatorsMap.get(list.get(1))).runner(list.get(2).replaceAll("\"", "")));
                 }
             }
         } catch (IOException ioException) {
@@ -36,5 +39,10 @@ public class ReadDataUtilClass {
         setLocatorsMap();
         readDataFromTextFile();
         return map;
+    }
+
+    public static JSONObject readDataFromJsonFile() throws IOException, ParseException {
+        JSONParser jsonParser = new JSONParser();
+        return ((JSONObject) jsonParser.parse(new FileReader("src/test/resources/orderData.json")));
     }
 }

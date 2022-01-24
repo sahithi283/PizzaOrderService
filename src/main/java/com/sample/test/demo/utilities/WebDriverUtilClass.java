@@ -2,7 +2,6 @@ package com.sample.test.demo.utilities;
 
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -13,46 +12,27 @@ import java.io.IOException;
 public class WebDriverUtilClass {
 
     private static WebDriverWait wait;
-    private static Actions actions;
     private static JavascriptExecutor javaScriptExecutor;
-    private WebDriver webDriver;
+    private final WebDriver webDriver;
 
     public WebDriverUtilClass(WebDriver webDriver) {
         this.webDriver = webDriver;
         wait = new WebDriverWait(webDriver, 10);
-        actions = new Actions(webDriver);
         javaScriptExecutor = (JavascriptExecutor) webDriver;
     }
 
-    public static void selectAValueFromDropDown(WebElement dropDownElement, String text) {
-        Select select = new Select(dropDownElement);
+    public static void selectAValueFromDropdown(WebElement DropdownElement, String text) {
+        Select select = new Select(DropdownElement);
         select.selectByValue(text);
     }
 
-    public static void selectAValueFromDropDownByText(WebElement dropDownElement, String text) {
-        Select select = new Select(dropDownElement);
-        select.selectByVisibleText(text);
-    }
-
-    public static boolean verifySelectedOption(WebElement dropDownElement, String displayName) {
-        Select select = new Select(dropDownElement);
+    public static boolean verifySelectedOption(WebElement DropdownElement, String displayName) {
+        Select select = new Select(DropdownElement);
         return select.getFirstSelectedOption().getText().contains(displayName);
     }
 
     public static void waitTillElementIsVisible(By by) {
         wait.until(ExpectedConditions.visibilityOfElementLocated(by));
-    }
-
-    public static void waitElementToBeSelected(By by) {
-        wait.until(ExpectedConditions.elementToBeSelected(by));
-    }
-
-    public static void waitTillPresenceOfElementLocated(By by) {
-        wait.until(ExpectedConditions.presenceOfElementLocated(by));
-    }
-
-    public static boolean isElementEnabled(WebElement webElement) {
-        return webElement.isEnabled();
     }
 
     public static boolean isElementDisplayed(WebElement webElement) {
@@ -74,10 +54,6 @@ public class WebDriverUtilClass {
 
     public static String getElementText(WebElement webElement) {
         return webElement.getText();
-    }
-
-    public static void clickOnButtonUsingActions(WebElement webElement) {
-        actions.click().build().perform();
     }
 
     public static void clickOnButtonUsingJSExecutor(WebElement webElement) {

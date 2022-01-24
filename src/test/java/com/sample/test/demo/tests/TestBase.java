@@ -1,20 +1,24 @@
 package com.sample.test.demo.tests;
 
 import static org.testng.Assert.fail;
+
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
 import com.sample.test.demo.Configuration;
+import com.sample.test.demo.utilities.PizzaOrderDataClass;
 import com.sample.test.demo.utilities.WebDriverUtilClass;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
+
 import java.io.IOException;
 
 public class TestBase {
 
     protected Configuration config;
+    protected PizzaOrderDataClass pizzaOrderData;
     protected WebDriver driver;
     protected String url;
     ExtentReports extent;
@@ -23,6 +27,7 @@ public class TestBase {
     @BeforeMethod(alwaysRun = true)
     public void initializeDriver() throws Throwable {
         config = new Configuration();
+        pizzaOrderData = new PizzaOrderDataClass();
         url = config.getUrl();
         initializedDriver();
         navigateToSite();
@@ -31,7 +36,7 @@ public class TestBase {
 
     @BeforeTest(alwaysRun = true)
     public void initialiseExtentReport() {
-        extent = new ExtentReports(System.getProperty("user.dir") + "/test-output/ExtentScreenshot.html", true);
+        extent = new ExtentReports(System.getProperty("user.dir") + "/test-output/report.html", true);
     }
 
     private void navigateToSite() {
@@ -72,10 +77,9 @@ public class TestBase {
     private void initializedDriver() {
         if (config.getBrowser().equalsIgnoreCase("chrome")) {
             if (config.getPlatform().equalsIgnoreCase("mac")) {
-                System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver/mac/chromedriver");
+                System.setProperty("webdriver.chrome.driver", config.getMacOSChromeDriverPath());
             } else {
-                System.setProperty("webdriver.chrome.driver",
-                        "src/test/resources/chromedriver/windows/chromedriver.exe");
+                System.setProperty("webdriver.chrome.driver", config.getWindowsOSChromeDriverPath());
             }
             driver = new ChromeDriver();
         } else {

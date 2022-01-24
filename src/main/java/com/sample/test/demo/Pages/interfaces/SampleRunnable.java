@@ -4,5 +4,5 @@ import org.openqa.selenium.By;
 
 @FunctionalInterface
 public interface SampleRunnable {
-   By runner(String locator);
+    By runner(String locator);
 }
