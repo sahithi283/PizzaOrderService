@@ -1,7 +1,6 @@
 package com.sample.test.demo.tests;
 
 import static org.testng.Assert.fail;
-
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
@@ -11,7 +10,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
-
 import java.io.IOException;
 
 public class TestBase {
@@ -26,7 +24,7 @@ public class TestBase {
     public void initializeDriver() throws Throwable {
         config = new Configuration();
         url = config.getUrl();
-        initializelDriver();
+        initializedDriver();
         navigateToSite();
         WebDriverUtilClass util = new WebDriverUtilClass(driver);
     }
@@ -71,7 +69,7 @@ public class TestBase {
         }
     }
 
-    private void initializelDriver() {
+    private void initializedDriver() {
         if (config.getBrowser().equalsIgnoreCase("chrome")) {
             if (config.getPlatform().equalsIgnoreCase("mac")) {
                 System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver/mac/chromedriver");
@@ -81,7 +79,7 @@ public class TestBase {
             }
             driver = new ChromeDriver();
         } else {
-            fail("Unsupported bfrowser " + config.getBrowser());
+            fail("Unsupported browser " + config.getBrowser());
         }
     }
 }

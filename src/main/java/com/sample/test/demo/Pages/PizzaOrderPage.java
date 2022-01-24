@@ -9,7 +9,6 @@ import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-
 import java.util.Map;
 
 public class PizzaOrderPage {
@@ -24,13 +23,11 @@ public class PizzaOrderPage {
     private WebElement phoneNumberInputBoxElement;
     private WebElement emailInputBoxElement;
     private WebElement nameInputBoxElement;
-    private String costOfPizzaOrdered;
     Logger logger = LogManagerUtilClass.getInstance();
 
     public PizzaOrderPage(WebDriver webDriver) {
         this.webDriver = webDriver;
         locatorsMap = ReadDataUtilClass.getLocatorsMap();
-        WebDriverUtilClass utilClass = new WebDriverUtilClass(webDriver);
     }
 
     public void choosePizza(PizzaTypes pizzaType) {
@@ -56,11 +53,23 @@ public class PizzaOrderPage {
         pizzaToppings2DropDownElement = getWebElement("pizza1Toppings2");
 
         if (pizzaType.getDisplayName().contains("no toppings")) {
-            return !pizzaToppings1DropDownElement.isEnabled() && !pizzaToppings2DropDownElement.isEnabled();
+            return isToppings1And2Disabled();
         } else if (pizzaType.getDisplayName().contains("1 topping")) {
-            return pizzaToppings1DropDownElement.isEnabled() && !pizzaToppings2DropDownElement.isEnabled();
+            return isTopping1EnabledAndTopping2Disabled();
         }
+        return isToppings1And2Enabled();
+    }
+
+    private boolean isToppings1And2Enabled() {
         return pizzaToppings1DropDownElement.isEnabled() && pizzaToppings2DropDownElement.isEnabled();
+    }
+
+    private boolean isTopping1EnabledAndTopping2Disabled() {
+        return pizzaToppings1DropDownElement.isEnabled() && !pizzaToppings2DropDownElement.isEnabled();
+    }
+
+    private boolean isToppings1And2Disabled() {
+        return !pizzaToppings1DropDownElement.isEnabled() && !pizzaToppings2DropDownElement.isEnabled();
     }
 
     public boolean isPizzaTypeSelected(PizzaTypes pizzaType) {
@@ -97,7 +106,7 @@ public class PizzaOrderPage {
     }
 
     public Double getCostDisplayed() {
-        costOfPizzaOrdered = WebDriverUtilClass.getElementValue(getWebElement("pizza1Cost"));
+        String costOfPizzaOrdered = WebDriverUtilClass.getElementValue(getWebElement("pizza1Cost"));
         return Double.parseDouble(costOfPizzaOrdered);
     }
 
@@ -135,11 +144,15 @@ public class PizzaOrderPage {
 
     public void selectPaymentMethod(String paymentMethod) {
         WebDriverUtilClass.scrollDownTheWebPage();
-        if (paymentMethod.equalsIgnoreCase("Credit Card")) {
+        if (isPaymentModeCreditCard(paymentMethod)) {
             selectRadioButton("radioCreditCard");
         } else {
             selectRadioButton("radioCash");
         }
+    }
+
+    private boolean isPaymentModeCreditCard(String paymentMethod) {
+        return paymentMethod.equalsIgnoreCase("Credit Card");
     }
 
     public boolean isRadioButtonSelected() {
@@ -163,12 +176,20 @@ public class PizzaOrderPage {
     }
 
     public boolean IsElementsResetted() {
-        boolean isPersonalInformationResetted = (nameInputBoxElement.getText().isEmpty()) && (emailInputBoxElement.getText().isEmpty())
-                && (phoneNumberInputBoxElement.getText().isEmpty());
-        boolean isPizzaOrderDropdownsResetted = WebDriverUtilClass.verifySelectedOption(pizzaTypeDropDownElement, "Choose Pizza")
-                && WebDriverUtilClass.verifySelectedOption(pizzaToppings1DropDownElement, "Choose a Toppings 1") && WebDriverUtilClass.verifySelectedOption(pizzaToppings2DropDownElement, "Choose a Toppings 2");
+        boolean isPersonalInformationResetted = isPersonalInformationResetted();
+        boolean isPizzaOrderDropdownsResetted = isPizzaOrderDropdownsResetted();
         boolean isPaymentInfoResetted = !isRadioButtonSelected();
         return isPersonalInformationResetted && isPizzaOrderDropdownsResetted && isPaymentInfoResetted;
+    }
+
+    private boolean isPizzaOrderDropdownsResetted() {
+       return WebDriverUtilClass.verifySelectedOption(pizzaTypeDropDownElement, "Choose Pizza")
+                && WebDriverUtilClass.verifySelectedOption(pizzaToppings1DropDownElement, "Choose a Toppings 1")
+                && WebDriverUtilClass.verifySelectedOption(pizzaToppings2DropDownElement, "Choose a Toppings 2");
+    }
+
+    private boolean isPersonalInformationResetted() {
+        return (nameInputBoxElement.getText().isEmpty()) && (emailInputBoxElement.getText().isEmpty()) && (phoneNumberInputBoxElement.getText().isEmpty());
     }
 
     public boolean isSuccessMessageDisplayed() {
