@@ -2,7 +2,7 @@ LOCATORS
 
 pizza1            ID        "pizza1Pizza"
 pizza1Toppings1   xpath     "//div[@id='pizza1']//select[@class='toppings1']"
-pizza1Toppings1   xpath     "//div[@id='pizza1']//select[@class='toppings2']"
+pizza1Toppings2   xpath     "//div[@id='pizza1']//select[@class='toppings2']"
 pizza1Quantity    ID        "pizza1Qty"
 pizza1Cost        ID        "pizza1Cost"
 
@@ -17,6 +17,8 @@ placeOrderButton  ID        "placeOrder"
 resetButton       ID        "reset"
 
 dialog            ID        "dialog"
-dialogText        xpath     "//div[@id='dialog']/p")          
+dialogText        xpath     "//div[@id='dialog']/p"
 
-
+orderFormTitle    xpath      "//center"
+pickupInfoTitle   xpath      "//div[@id='pickupInfo']//h3"
+paymentInfoTitle  xpath      "//div[@id='paymentSection']//preceding-sibling::h3"

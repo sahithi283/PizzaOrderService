@@ -13,7 +13,7 @@ We will be evaluating
 3. Code encapsulation
 4. Code structure and organization
 5. Quality of test cases
-6. Variety  of testing types (examples: boundary, happy path, negative, etc) 
+6. Variety of testing types (examples: boundary, happy path, negative, etc) 
 
 
 #### Technologies
@@ -47,5 +47,5 @@ We will be evaluating
 
 #### Test Cases
 
- 1.  
+Please find the Test Cases and Defects documents, under the testCases-defects folder
 

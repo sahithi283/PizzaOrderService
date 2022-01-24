@@ -1,8 +1,10 @@
 package com.sample.test.demo.constants;
 
 
+import java.util.Locale;
+
 public enum PizzaToppings {
-    MANGOS("Diced Mango"),
+    MANGOES("Diced Mango"),
     OLIVES("Olives"),
     MUSHROOMS("Mushrooms"),
     ONIONS("Caramelized onions"),
@@ -12,9 +14,7 @@ public enum PizzaToppings {
     PROVOLNE("Provolone cheese"),
     EXTRACHEESE("Extra cheese"),
     MOZZARELLA("Mozzarella cheese"),
-    PARMASAN("Parmesan cheese")
-
-    ;
+    PARMASAN("Parmesan cheese");
 
     private String displayName;
 
@@ -26,4 +26,7 @@ public enum PizzaToppings {
         return displayName;
     }
 
+    public static PizzaToppings fromString(String pizzaToppings){
+        return PizzaToppings.valueOf(pizzaToppings.toUpperCase());
+    }
 }
