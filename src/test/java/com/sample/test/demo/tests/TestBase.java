@@ -6,7 +6,6 @@ import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
 import com.sample.test.demo.Configuration;
-import com.sample.test.demo.utilities.PizzaOrderDataClass;
 import com.sample.test.demo.utilities.WebDriverUtilClass;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -18,7 +17,6 @@ import java.io.IOException;
 public class TestBase {
 
     protected Configuration config;
-    protected PizzaOrderDataClass pizzaOrderData;
     protected WebDriver driver;
     protected String url;
     ExtentReports extent;
@@ -27,7 +25,6 @@ public class TestBase {
     @BeforeMethod(alwaysRun = true)
     public void initializeDriver() throws Throwable {
         config = new Configuration();
-        pizzaOrderData = new PizzaOrderDataClass();
         url = config.getUrl();
         initializedDriver();
         navigateToSite();

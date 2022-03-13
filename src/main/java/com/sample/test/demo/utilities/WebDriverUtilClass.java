@@ -13,10 +13,8 @@ public class WebDriverUtilClass {
 
     private static WebDriverWait wait;
     private static JavascriptExecutor javaScriptExecutor;
-    private final WebDriver webDriver;
 
     public WebDriverUtilClass(WebDriver webDriver) {
-        this.webDriver = webDriver;
         wait = new WebDriverWait(webDriver, 10);
         javaScriptExecutor = (JavascriptExecutor) webDriver;
     }

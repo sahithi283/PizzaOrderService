@@ -40,9 +40,4 @@ public class ReadDataUtilityClass {
         readDataFromTextFile();
         return map;
     }
-
-    public static JSONObject readDataFromJsonFile() throws IOException, ParseException {
-        JSONParser jsonParser = new JSONParser();
-        return ((JSONObject) jsonParser.parse(new FileReader("src/test/resources/orderData.json")));
-    }
 }

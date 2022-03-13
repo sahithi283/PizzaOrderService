@@ -24,4 +24,7 @@ public enum PizzaTypes {
         return cost;
     }
 
+    public static PizzaTypes fromString(String pizzaTypes){
+        return PizzaTypes.valueOf(pizzaTypes.toUpperCase());
+    }
 }
