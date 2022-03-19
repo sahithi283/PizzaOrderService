@@ -7,7 +7,6 @@ import com.sample.test.demo.constants.PizzaToppings;
 import com.sample.test.demo.constants.PizzaTypes;
 import com.sample.test.demo.utilities.DataProviderClass;
 import org.testng.Assert;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 public class PizzaOrderPageTest extends TestBase {
@@ -21,18 +20,13 @@ public class PizzaOrderPageTest extends TestBase {
         test.log(LogStatus.PASS, "Pizza order page title is verified");
     }
 
-    @Test(groups = {"pizza order form", "pickup information form", "paymentInformation"}, dataProvider = "titles")
+    @Test(groups = {"pizza order form", "pickup information form", "paymentInformation"}, dataProvider = "titles", dataProviderClass = DataProviderClass.class)
     public void verifyTitleOfTheForms(String webElementLocator, String expectedTitle) {
         test = extent.startTest("Verify title of the form");
         PizzaOrderPage pizzaOrderPage = new PizzaOrderPage(driver);
         PizzaOrderTestPage pizzaOrderTestPage = new PizzaOrderTestPage(driver, pizzaOrderPage);
         Assert.assertTrue(pizzaOrderTestPage.isTitleDisplayedCorrectly(webElementLocator, expectedTitle));
         test.log(LogStatus.PASS, "Test Passed and the title is verified");
-    }
-
-    @DataProvider(name = "titles")
-    public Object[][] getTitles() {
-        return new Object[][]{{"orderFormTitle", "Pizza Order Form"}, {"paymentInfoTitle", "PAYMENT INFORMATION"}, {"pickupInfoTitle", "PICKUP INFORMATION"}};
     }
 
     @Test(groups = {"pizza order form"}, dataProvider = "pizzaTypeProvider", dataProviderClass = DataProviderClass.class)
@@ -61,9 +55,8 @@ public class PizzaOrderPageTest extends TestBase {
     public void isQuantityFieldEditable() {
         test = extent.startTest("verify if the user is able to edit the quantity field");
         PizzaOrderPage pizzaOrderPage = new PizzaOrderPage(driver);
-        PizzaOrderTestPage pizzaOrderTestPage = new PizzaOrderTestPage(driver, pizzaOrderPage);
         pizzaOrderPage.enterQuantity(5);
-        Assert.assertTrue(pizzaOrderTestPage.isQuantityEnteredCorrectly(5));
+        Assert.assertEquals(pizzaOrderPage.getQuantityEntered(), 5);
         test.log(LogStatus.PASS, "Test Passed and user is able to edit the quantity field");
     }
 
@@ -96,7 +89,7 @@ public class PizzaOrderPageTest extends TestBase {
         pizzaOrderPage.choosePizzaToppings("pizza1Toppings1", PizzaToppings.fromString(pizzaToppings1));
         pizzaOrderPage.choosePizzaToppings("pizza1Toppings2", PizzaToppings.fromString(pizzaToppings2));
         pizzaOrderPage.enterQuantity(maximumQuantity);
-        Assert.assertTrue(pizzaOrderTestPage.isQuantityEnteredCorrectly(maximumQuantity));
+        Assert.assertEquals(pizzaOrderPage.getQuantityEntered(), maximumQuantity);
         pizzaOrderPage.enterTextInTheInputField("name", name);
         pizzaOrderPage.enterTextInTheInputField("email", email);
         pizzaOrderPage.enterTextInTheInputField("phone", phone);
@@ -110,9 +103,8 @@ public class PizzaOrderPageTest extends TestBase {
     public void verifyQuantityFieldDoesNotAcceptVeryLargeValues() {
         test = extent.startTest("verify if the quantity field does not accept very large values");
         PizzaOrderPage pizzaOrderPage = new PizzaOrderPage(driver);
-        PizzaOrderTestPage pizzaOrderTestPage = new PizzaOrderTestPage(driver, pizzaOrderPage);
         pizzaOrderPage.enterQuantity(99999999);
-        Assert.assertTrue(pizzaOrderTestPage.isQuantityEnteredCorrectly(99999));
+        Assert.assertEquals(pizzaOrderPage.getQuantityEntered(), 99999);
         test.log(LogStatus.PASS, "Test Passed and the quantity field does not accept very large values");
     }
 
@@ -130,19 +122,13 @@ public class PizzaOrderPageTest extends TestBase {
         test.log(LogStatus.PASS, "Test Passed and the cost is calculated and displayed correctly");
     }
 
-    @Test(groups = {"pickup information form"}, dataProvider = "inputFieldData")
+    @Test(groups = {"pickup information form"}, dataProvider = "inputFieldData", dataProviderClass = DataProviderClass.class)
     public void isInputFieldEditable(String inputField, String inputFieldValue) {
         test = extent.startTest("verify if the input field is editable or not");
         PizzaOrderPage pizzaOrderPage = new PizzaOrderPage(driver);
-        PizzaOrderTestPage pizzaOrderTestPage = new PizzaOrderTestPage(driver, pizzaOrderPage);
         pizzaOrderPage.enterTextInTheInputField(inputField, inputFieldValue);
-        Assert.assertTrue(pizzaOrderTestPage.isTextEnteredCorrectlyInTheField(inputFieldValue));
+        Assert.assertEquals(pizzaOrderPage.getTextEnteredInTheInputField(), inputFieldValue);
         test.log(LogStatus.PASS, "Test Passed and the input field is editable");
-    }
-
-    @DataProvider(name = "inputFieldData")
-    public Object[][] getInputFieldData() {
-        return new Object[][]{{"name", "user1"}, {"email", "user1@gmail.com"}, {"phone", "123456789"}};
     }
 
     @Test(groups = {"paymentInformation"})

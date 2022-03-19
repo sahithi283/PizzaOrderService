@@ -16,10 +16,10 @@ public class PizzaOrderPage {
     private final WebDriver webDriver;
     private final Map<String, By> locatorsMap;
     private WebElement webElement;
-    private final Logger logger = LoggerFactory.getLogger(PizzaOrderPage.class);
-    public WebElement inputBoxElement;
-    public WebElement quantityInputBoxElement;
-    public WebElement paymentModeRadioButtonElement;
+    private static final Logger logger = LoggerFactory.getLogger(PizzaOrderPage.class);
+    private WebElement inputBoxElement;
+    private WebElement quantityInputBoxElement;
+    private WebElement paymentModeRadioButtonElement;
 
     public PizzaOrderPage(WebDriver webDriver) {
         this.webDriver = webDriver;
@@ -43,6 +43,10 @@ public class PizzaOrderPage {
         WebDriverUtilClass.enterText(quantityInputBoxElement, String.valueOf(quantityNumber));
     }
 
+    public int getQuantityEntered() {
+        return Integer.parseInt(quantityInputBoxElement.getAttribute("value"));
+    }
+
     public double getCostDisplayed() {
         String costOfPizzaOrdered = WebDriverUtilClass.getElementValue(getWebElement("pizza1Cost"));
         return Double.parseDouble(costOfPizzaOrdered);
@@ -52,9 +56,13 @@ public class PizzaOrderPage {
         return Integer.parseInt(WebDriverUtilClass.getElementValue(webDriver.findElement(locatorsMap.get("pizza1Quantity"))));
     }
 
-    public void enterTextInTheInputField(String fieldName,String fieldValue) {
+    public void enterTextInTheInputField(String fieldName, String fieldValue) {
         inputBoxElement = getWebElement(fieldName);
         WebDriverUtilClass.enterText(inputBoxElement, fieldValue);
+    }
+
+    public String getTextEnteredInTheInputField() {
+        return inputBoxElement.getAttribute("value");
     }
 
     public WebElement getWebElement(String locator) {
@@ -68,6 +76,10 @@ public class PizzaOrderPage {
         paymentModeRadioButtonElement = getWebElement(locator);
         WebDriverUtilClass.scrollToTheWebElement(paymentModeRadioButtonElement);
         WebDriverUtilClass.clickOnButtonUsingJSExecutor(paymentModeRadioButtonElement);
+    }
+
+    public WebElement getPaymentModeRadioButtonElement() {
+        return paymentModeRadioButtonElement;
     }
 
     public void selectPaymentMethod(String paymentMethod) {

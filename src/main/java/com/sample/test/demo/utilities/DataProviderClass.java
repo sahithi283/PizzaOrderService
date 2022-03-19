@@ -26,6 +26,11 @@ public class DataProviderClass {
         return object;
     }
 
+    @DataProvider(name = "titles")
+    public Object[][] getTitles() {
+        return new Object[][]{{"orderFormTitle", "Pizza Order Form"}, {"paymentInfoTitle", "PAYMENT INFORMATION"}, {"pickupInfoTitle", "PICKUP INFORMATION"}};
+    }
+
     @DataProvider(name = "quantityMaximumValue")
     public static Object[][] getQuantityMaximumValue() {
         return new Object[][]{{"MEDIUM_TWOTOPPINGS", "olives", "mushrooms", 99999, "user1", "user1@gmail.com", "123456789", "Cash"}};
@@ -75,4 +80,10 @@ public class DataProviderClass {
     public static Object[][] getOnlyThePizzaData() {
         return new Object[][]{{"SMALL_NOTOPPINGS", 5, "user1"}};
     }
+
+    @DataProvider(name = "inputFieldData")
+    public Object[][] getInputFieldData() {
+        return new Object[][]{{"name", "user1"}, {"email", "user1@gmail.com"}, {"phone", "123456789"}};
+    }
+
 }

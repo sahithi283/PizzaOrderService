@@ -26,7 +26,7 @@ public class TestBase {
     public void initializeDriver() throws Throwable {
         config = new Configuration();
         url = config.getUrl();
-        initializedDriver();
+        initializingDriver();
         navigateToSite();
         WebDriverUtilClass util = new WebDriverUtilClass(driver);
     }
@@ -71,7 +71,7 @@ public class TestBase {
         }
     }
 
-    private void initializedDriver() {
+    private void initializingDriver() {
         if (config.getBrowser().equalsIgnoreCase("chrome")) {
             if (config.getPlatform().equalsIgnoreCase("mac")) {
                 System.setProperty("webdriver.chrome.driver", config.getMacOSChromeDriverPath());

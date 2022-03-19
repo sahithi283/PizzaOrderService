@@ -12,9 +12,9 @@ public class PizzaOrderTestPage {
     private WebElement webElement;
     private final WebDriver webDriver;
 
-    public PizzaOrderTestPage(WebDriver webDriver,PizzaOrderPage pizzaOrderPage) {
+    public PizzaOrderTestPage(WebDriver webDriver, PizzaOrderPage pizzaOrderPage) {
         this.webDriver = webDriver;
-        this.pizzaOrderPage=pizzaOrderPage;
+        this.pizzaOrderPage = pizzaOrderPage;
     }
 
     public boolean isToppingsEnabledAsPerPizzaTypeSelection(PizzaTypes pizzaType) {
@@ -40,27 +40,20 @@ public class PizzaOrderTestPage {
         return WebDriverUtilClass.verifySelectedOption(pizzaOrderPage.getWebElement("pizza1"), pizzaType.getDisplayName());
     }
 
-    public boolean isPizzaToppingSelected(String pizzaToppingType,PizzaToppings pizzaToppings) {
+    public boolean isPizzaToppingSelected(String pizzaToppingType, PizzaToppings pizzaToppings) {
         WebElement pizzaToppingsDropdownElement = pizzaOrderPage.getWebElement(pizzaToppingType);
         return WebDriverUtilClass.verifySelectedOption(pizzaToppingsDropdownElement, pizzaToppings.getDisplayName());
     }
 
-    public boolean isQuantityEnteredCorrectly(int textEntered) {
-        return WebDriverUtilClass.verifyTextEntered(pizzaOrderPage.quantityInputBoxElement, String.valueOf(textEntered));
-    }
-
-    public boolean isTextEnteredCorrectlyInTheField(String textEntered) {
-        return WebDriverUtilClass.verifyTextEntered(pizzaOrderPage.inputBoxElement, textEntered);
-    }
-
     public boolean isPaymentModeRadioButtonElementSelected() {
-        return WebDriverUtilClass.isWebElementSelected(pizzaOrderPage.paymentModeRadioButtonElement);
+        return WebDriverUtilClass.isWebElementSelected(pizzaOrderPage.getPaymentModeRadioButtonElement());
     }
 
     public boolean isButtonDisplayed(String buttonName) {
         webElement = pizzaOrderPage.getWebElement(buttonName);
         return WebDriverUtilClass.isElementDisplayed(webElement);
     }
+
     public boolean isElementsReset() {
         boolean isPersonalInformationReset = isPersonalInformationReset();
         boolean isPizzaOrderDropdownsReset = isPizzaOrderDropdownsReset();
@@ -75,9 +68,9 @@ public class PizzaOrderTestPage {
     }
 
     private boolean isPersonalInformationReset() {
-        WebElement nameInputBoxElement=pizzaOrderPage.getWebElement("name");
-        WebElement emailInputBoxElement=pizzaOrderPage.getWebElement("email");
-        WebElement phoneNumberInputBoxElement=pizzaOrderPage.getWebElement("email");
+        WebElement nameInputBoxElement = pizzaOrderPage.getWebElement("name");
+        WebElement emailInputBoxElement = pizzaOrderPage.getWebElement("email");
+        WebElement phoneNumberInputBoxElement = pizzaOrderPage.getWebElement("email");
         return (nameInputBoxElement.getText().isEmpty()) && (emailInputBoxElement.getText().isEmpty()) && (phoneNumberInputBoxElement.getText().isEmpty());
     }
 
