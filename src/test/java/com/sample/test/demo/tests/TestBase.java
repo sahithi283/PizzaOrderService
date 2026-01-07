@@ -2,9 +2,9 @@ package com.sample.test.demo.tests;
 
 import static org.testng.Assert.fail;
 
-import com.relevantcodes.extentreports.ExtentReports;
-import com.relevantcodes.extentreports.ExtentTest;
-import com.relevantcodes.extentreports.LogStatus;
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import com.sample.test.demo.Configuration;
 import com.sample.test.demo.utilities.WebDriverUtilClass;
 import org.openqa.selenium.WebDriver;
@@ -13,6 +13,7 @@ import org.testng.ITestResult;
 import org.testng.annotations.*;
 
 import java.io.IOException;
+import java.net.URL;
 
 public class TestBase {
 
@@ -33,11 +34,22 @@ public class TestBase {
 
     @BeforeTest(alwaysRun = true)
     public void initialiseExtentReport() {
-        extent = new ExtentReports(System.getProperty("user.dir") + "/test-output/report.html", true);
+        ExtentSparkReporter sparkReporter = new ExtentSparkReporter("extent-report.html");
+        sparkReporter.config().setDocumentTitle("Automation Test Report");
+        sparkReporter.config().setReportName("Selenium Test Results");
+        extent = new ExtentReports();
+        extent.attachReporter(sparkReporter);
+        test = extent.createTest("Pizza Service Test")
+                .assignAuthor("QA Engineer")
+                .assignCategory("Functional Test")
+                .assignDevice("Chrome");
     }
 
     private void navigateToSite() {
-        driver.get(url);
+        URL fileUrl = PizzaOrderPageTests.class
+                .getClassLoader()
+                .getResource("files/index.html");
+        driver.get(fileUrl.toString());
         driver.manage().window().maximize();
     }
 
@@ -47,19 +59,17 @@ public class TestBase {
             try {
                 String screenShotName = result.getName();
                 WebDriverUtilClass.captureScreenShot(driver, screenShotName);
-                test.log(LogStatus.FAIL, result.getThrowable().toString());
-                test.log(LogStatus.FAIL, "Please find the snapshot of the error below: " + test.addScreenCapture(screenShotName + ".png"));
+                test.fail(result.getThrowable().toString());
+                test.fail("Please find the snapshot of the error below: " + test.addScreenCaptureFromPath(screenShotName + ".png"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        extent.endTest(test);
     }
 
     @AfterTest
     public void endReport() {
         extent.flush();
-        extent.close();
     }
 
     @AfterMethod(dependsOnMethods = "getResult", alwaysRun = true)
@@ -73,12 +83,7 @@ public class TestBase {
 
     private void initializingDriver() {
         if (config.getBrowser().equalsIgnoreCase("chrome")) {
-            if (config.getPlatform().equalsIgnoreCase("mac")) {
-                System.setProperty("webdriver.chrome.driver", config.getMacOSChromeDriverPath());
-            } else {
-                System.setProperty("webdriver.chrome.driver", config.getWindowsOSChromeDriverPath());
-            }
-            driver = new ChromeDriver();
+            driver =  new ChromeDriver();
         } else {
             fail("Unsupported browser " + config.getBrowser());
         }

@@ -3,7 +3,7 @@
     <test name="Tests">
         <groups>
             <run>
-                <include name="placeOrder"/>
+                <include name="pizza order form"/>
             </run>
         </groups>
         <packages>

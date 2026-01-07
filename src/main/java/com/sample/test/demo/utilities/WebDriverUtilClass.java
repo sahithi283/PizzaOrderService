@@ -1,13 +1,15 @@
 package com.sample.test.demo.utilities;
 
-import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
+import org.openqa.selenium.io.FileHandler;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.Duration;
+import java.util.concurrent.TimeUnit;
 
 public class WebDriverUtilClass {
 
@@ -15,7 +17,7 @@ public class WebDriverUtilClass {
     private static JavascriptExecutor javaScriptExecutor;
 
     public WebDriverUtilClass(WebDriver webDriver) {
-        wait = new WebDriverWait(webDriver, 10);
+        wait = new WebDriverWait(webDriver, Duration.of(10, TimeUnit.SECONDS.toChronoUnit()));
         javaScriptExecutor = (JavascriptExecutor) webDriver;
     }
 
@@ -75,6 +77,6 @@ public class WebDriverUtilClass {
         File source = takesScreenshot.getScreenshotAs(OutputType.FILE);
         String destinationPath = "test-output/" + screenShotName + ".png";
         File destination = new File(destinationPath);
-        FileUtils.copyFile(source, destination);
+        FileHandler.copy(source, destination);
     }
 }

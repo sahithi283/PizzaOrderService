@@ -1,8 +1,6 @@
 package com.sample.test.demo.utilities;
 
 import com.sample.test.demo.Pages.interfaces.SampleRunnable;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.*;
 import org.openqa.selenium.By;
 
 import java.io.*;

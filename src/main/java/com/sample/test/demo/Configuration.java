@@ -39,14 +39,6 @@ public class Configuration {
         return getProperty("url");
     }
 
-    public String getWindowsOSChromeDriverPath() {
-        return getProperty("chromeDriverWindowsOSPath");
-    }
-
-    public String getMacOSChromeDriverPath() {
-        return getProperty("chromeDriverMacOSPath");
-    }
-
     public String getProperty(String propertyName) {
         return configProperties.getProperty(propertyName);
     }
