@@ -76,7 +76,7 @@ public class PizzaOrderPageTests extends TestBase {
         pizzaOrderPage.enterTextInTheInputField("phone", phone);
         pizzaOrderPage.selectPaymentMethod(paymentMode);
         pizzaOrderPage.clickOnPlaceOrderButton();
-        Assert.assertFalse(pizzaOrderTestPage.isSuccessMessageDisplayed());
+        Assert.assertTrue(pizzaOrderTestPage.isSuccessMessageDisplayed());
         test.pass( "Test Passed");
     }
 
@@ -356,7 +356,7 @@ public class PizzaOrderPageTests extends TestBase {
         pizzaOrderPage.enterTextInTheInputField("phone", phone);
         pizzaOrderPage.selectPaymentMethod(paymentMode);
         pizzaOrderPage.clickOnPlaceOrderButton();
-        Assert.assertFalse(pizzaOrderTestPage.isSuccessMessageDisplayed());
+        Assert.assertTrue(pizzaOrderTestPage.isSuccessMessageDisplayed());
         test.pass("Test Passed");
     }
 
@@ -395,7 +395,7 @@ public class PizzaOrderPageTests extends TestBase {
     }
 
     @Test(groups = {"pizza order form", "pickup information form", "paymentInformation", "placeOrder"}, dataProvider = "pizzaOrderDataWithAllPaymentModes", dataProviderClass = DataProviderClass.class)
-    public void verifyUserIsNotAbleToSelectAllThePaymentModes(String pizzaType, int quantity, String name, String email, String phone, String paymentMode1, String paymentMode2) {
+    public void verifyUserIsAbleToSelectAllThePaymentModes(String pizzaType, int quantity, String name, String email, String phone, String paymentMode1, String paymentMode2) {
         test = extent.createTest("verify if the user is not able to select multiple payment modes");
         PizzaOrderPage pizzaOrderPage = new PizzaOrderPage(driver);
         PizzaOrderTestPage pizzaOrderTestPage = new PizzaOrderTestPage(driver, pizzaOrderPage);
@@ -407,7 +407,45 @@ public class PizzaOrderPageTests extends TestBase {
         pizzaOrderPage.selectPaymentMethod(paymentMode1);
         pizzaOrderPage.selectPaymentMethod(paymentMode2);
         pizzaOrderPage.clickOnPlaceOrderButton();
-        Assert.assertFalse(pizzaOrderTestPage.isSuccessMessageDisplayed());
+        Assert.assertTrue(pizzaOrderTestPage.isSuccessMessageDisplayed());
+        test.pass("Test Passed");
+    }
+
+    @Test(groups = {"pizza order form", "pickup information form", "paymentInformation", "placeOrder"}, dataProvider = "pizzaOrderData", dataProviderClass = DataProviderClass.class)
+    public void verifyUserIsUnableToPlaceOrderWhenNameIsNotFilled(String pizzaType, String pizzaToppings1, String
+            pizzaToppings2, int quantity, String name, String email, String phone, String paymentMode) {
+        test = extent.createTest("verify if the user is not able to select multiple payment modes");
+        PizzaOrderPage pizzaOrderPage = new PizzaOrderPage(driver);
+        PizzaOrderTestPage pizzaOrderTestPage = new PizzaOrderTestPage(driver, pizzaOrderPage);
+        pizzaOrderPage.choosePizza(PizzaTypes.fromString(pizzaType));
+        pizzaOrderPage.choosePizzaToppings("pizza1Toppings1", PizzaToppings.fromString(pizzaToppings1));
+        pizzaOrderPage.choosePizzaToppings("pizza1Toppings2", PizzaToppings.fromString(pizzaToppings2));
+        pizzaOrderPage.enterQuantity(quantity);
+        pizzaOrderPage.enterTextInTheInputField("name", "");
+        pizzaOrderPage.enterTextInTheInputField("email", email);
+        pizzaOrderPage.enterTextInTheInputField("phone", phone);
+        pizzaOrderPage.selectPaymentMethod(paymentMode);
+        pizzaOrderPage.clickOnPlaceOrderButton();
+        Assert.assertTrue(pizzaOrderTestPage.isErrorMessageDisplayed("Missing name"));
+        test.pass("Test Passed");
+    }
+
+    @Test(groups = {"pizza order form", "pickup information form", "paymentInformation", "placeOrder"}, dataProvider = "pizzaOrderData", dataProviderClass = DataProviderClass.class)
+    public void verifyUserIsUnableToPlaceOrderWhenPhoneNumberIsNotFilled(String pizzaType, String pizzaToppings1, String
+            pizzaToppings2, int quantity, String name, String email, String phone, String paymentMode) {
+        test = extent.createTest("verify if the user is not able to select multiple payment modes");
+        PizzaOrderPage pizzaOrderPage = new PizzaOrderPage(driver);
+        PizzaOrderTestPage pizzaOrderTestPage = new PizzaOrderTestPage(driver, pizzaOrderPage);
+        pizzaOrderPage.choosePizza(PizzaTypes.fromString(pizzaType));
+        pizzaOrderPage.choosePizzaToppings("pizza1Toppings1", PizzaToppings.fromString(pizzaToppings1));
+        pizzaOrderPage.choosePizzaToppings("pizza1Toppings2", PizzaToppings.fromString(pizzaToppings2));
+        pizzaOrderPage.enterQuantity(quantity);
+        pizzaOrderPage.enterTextInTheInputField("name", name);
+        pizzaOrderPage.enterTextInTheInputField("email", email);
+        pizzaOrderPage.enterTextInTheInputField("phone", "");
+        pizzaOrderPage.selectPaymentMethod(paymentMode);
+        pizzaOrderPage.clickOnPlaceOrderButton();
+        Assert.assertTrue(pizzaOrderTestPage.isErrorMessageDisplayed("Missing phone"));
         test.pass("Test Passed");
     }
 }

@@ -1,6 +1,10 @@
 package com.sample.test.demo;
 
-import static org.testng.Assert.assertTrue;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import static org.testng.Assert.assertNotNull;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,6 +14,7 @@ public class Configuration {
 
     private static final String CONFIG_FILE_NAME = "config.properties";
     private Properties configProperties;
+    private static final Logger logger = LoggerFactory.getLogger(Configuration.class);
 
     public Configuration() {
         loadProperties();
@@ -18,12 +23,12 @@ public class Configuration {
     private void loadProperties() {
         configProperties = new Properties();
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        assertTrue(classLoader != null);
+        assertNotNull(classLoader);
         InputStream inputStream = classLoader.getResourceAsStream(CONFIG_FILE_NAME);
         try {
             configProperties.load(inputStream);
         } catch (final IOException ioException) {
-            ioException.printStackTrace();
+            logger.info("Error loading configuration properties: {}", ioException.getMessage());
         }
     }
 

@@ -9,6 +9,8 @@ import com.sample.test.demo.Configuration;
 import com.sample.test.demo.utilities.WebDriverUtilClass;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
 
@@ -22,6 +24,7 @@ public class TestBase {
     protected String url;
     ExtentReports extent;
     ExtentTest test;
+    private static final Logger logger = LoggerFactory.getLogger(TestBase.class);
 
     @BeforeMethod(alwaysRun = true)
     public void initializeDriver() throws Throwable {
@@ -61,8 +64,8 @@ public class TestBase {
                 WebDriverUtilClass.captureScreenShot(driver, screenShotName);
                 test.fail(result.getThrowable().toString());
                 test.fail("Please find the snapshot of the error below: " + test.addScreenCaptureFromPath(screenShotName + ".png"));
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (IOException ioException) {
+                logger.error("Error while capturing screenshot: {}", ioException.getMessage());
             }
         }
     }
@@ -77,7 +80,7 @@ public class TestBase {
         try {
             driver.quit();
         } catch (Exception exception) {
-            exception.printStackTrace();
+            logger.error("Error occurred while closing the driver: {}", exception.getMessage());
         }
     }
 

@@ -2,6 +2,8 @@ package com.sample.test.demo.utilities;
 
 import com.sample.test.demo.Pages.interfaces.SampleRunnable;
 import org.openqa.selenium.By;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.util.*;
@@ -9,6 +11,7 @@ import java.util.*;
 public class ReadDataUtilityClass {
     private static final Map<String, By> map = new LinkedHashMap<>();
     private static final Map<String, SampleRunnable> locatorsMap = new LinkedHashMap<>();
+    private static final Logger logger = LoggerFactory.getLogger(ReadDataUtilityClass.class);
 
     public static void setLocatorsMap() {
         locatorsMap.put("xpath", By::xpath);
@@ -29,7 +32,7 @@ public class ReadDataUtilityClass {
                 }
             }
         } catch (IOException ioException) {
-            ioException.printStackTrace();
+            logger.info("Error reading locators from file: {}", ioException.getMessage());
         }
     }
 
